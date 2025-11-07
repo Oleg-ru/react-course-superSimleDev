@@ -16,22 +16,35 @@
 
     function ChatInput({chatMessages, setChatMessages}) {
         const [inputText, setInputText] = React.useState('');
+        const [isLoading, setIsLoading] = React.useState(false);
 
         function saveInputText(event) {
             setInputText(event.target.value);
         }
 
-        function sendMessage() {
+        async function sendMessage() {
+
+            setIsLoading(true);
+
+            setInputText('');
+
             const newChatMessages = [
                 ...chatMessages, {
                     message: inputText,
                     sender: 'user',
                     id: crypto.randomUUID(),
+                }];
+
+            setChatMessages(
+                [
+                    ...newChatMessages, {
+                    message: 'Loading...',
+                    sender: 'user',
+                    id: crypto.randomUUID(),
                 }]
+            )
 
-            setChatMessages(newChatMessages);
-
-            const response =  Chatbot.getResponse(inputText);
+            const response = await Chatbot.getResponseAsync(inputText);
 
             setChatMessages([
                 ...newChatMessages, {
@@ -39,8 +52,13 @@
                     sender: 'robot',
                     id: crypto.randomUUID(),
                 }]);
-
-            setInputText('');
+            setIsLoading(false);
+        }
+        
+        function handleKeyDownInput(event) {
+            if (event.key === 'Enter') {
+                sendMessage()
+            }
         }
         
         return (
@@ -49,10 +67,13 @@
                     placeholder="Send a message to Chatbot"
                     size="30"
                     onChange={saveInputText}
+                    onKeyPress={handleKeyDownInput}
                     value={inputText}
                 />
                 <button
                     onClick={sendMessage}
+                    disabled={!inputText || isLoading}
+                    title={(!inputText || isLoading) ? 'Empty message or load answer' : ''}
                 >Send</button>
             </>
         );
@@ -89,28 +110,7 @@
     }
 
     function App() {
-        const [chatMessages, setChatMessages] = React.useState([
-            {
-                message: 'Hello Chatbot',
-                sender: 'user',
-                id: 'id1',
-            },
-            {
-                message: 'Hello, how can i help you?',
-                sender: 'robot',
-                id: 'id2',
-            },
-            {
-                message: 'Can you get me todays date?',
-                sender: 'user',
-                id: 'id3',
-            },
-            {
-                message: 'Today 6 Noveber',
-                sender: 'robot',
-                id: 'id4',
-            },
-        ])
+        const [chatMessages, setChatMessages] = React.useState([])
 
         return (
             <>
