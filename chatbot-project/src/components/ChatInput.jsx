@@ -55,23 +55,33 @@ export function ChatInput({chatMessages, setChatMessages}) {
         }
     }
 
+    function handleClearHistoryMessages() {
+        setChatMessages([]);
+    }
+
     return (
         <div className="chat-input-container">
             <input
+                className="chat-input"
+                onChange={saveInputText}
                 placeholder="Send a message to Chatbot"
                 size="30"
-                onChange={saveInputText}
                 onKeyPress={handleKeyDownInput}
                 value={inputText}
-                className="chat-input"
             />
             <button
-                onClick={sendMessage}
                 className="send-button"
+                onClick={sendMessage}
                 disabled={!inputText || isLoading}
                 title={(!inputText || isLoading) ? 'Empty message or load answer' : ''}
             >Send
             </button>
+            <button
+                className="chat-message-clear-history-btn"
+                onClick={handleClearHistoryMessages}
+                disabled={isLoading}
+                title={(isLoading) ? 'Loading...' : ''}
+            >Clear history</button>
         </div>
     );
 }

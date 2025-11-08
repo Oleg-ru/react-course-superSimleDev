@@ -1,12 +1,15 @@
-.send-button {
-    background: rgb(25, 135, 84);
-    color: white;
+button {
     padding: 10px 20px;
     margin-left: 10px;
     border: none;
     border-radius: 10px;
     font-size: 15px;
     cursor: pointer;
+    color: white;
+}
+
+.send-button {
+    background: rgb(25, 135, 84);
 }
 
 .chat-input {
@@ -25,4 +28,8 @@
 .chat-message-spinner {
     height: 40px;
     margin: -15px;
+}
+
+.chat-message-clear-history-btn {
+    background-color: firebrick;
 }
