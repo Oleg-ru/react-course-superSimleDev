@@ -69,6 +69,16 @@
             overflow: scroll;
             scrollbar-width: none;
         }
+
+        .welcome-text {
+            color: gray;
+            text-align: center;
+        }
+
+        .chat-message-spinner {
+            height: 40px;
+            margin: -15px;
+        }
     </style>
 </head>
 <body>
@@ -106,8 +116,13 @@
             setChatMessages(
                 [
                     ...newChatMessages, {
-                    message: 'Loading...',
-                    sender: 'user',
+                    message: (
+                        <img
+                            className="chat-message-spinner"
+                            src="./loading-spinner.gif"
+                            alt="loading"
+                        />),
+                    sender: 'robot',
                     id: crypto.randomUUID(),
                 }]
             )
@@ -175,14 +190,31 @@
         );
     }
 
-    function ChatMessages({chatMessages}) {
+    //Custom Hook
+    function useAutoScroll(dependencies) {
         const chatMessagesRef = React.useRef(null)
+
         React.useEffect(() => {
             const containerElem = chatMessagesRef.current;
             if (containerElem) {
                 containerElem.scrollTop = containerElem.scrollHeight;
             }
-        }, [chatMessages])
+        }, [dependencies])
+
+        return chatMessagesRef;
+    }
+
+    function ChatMessages({chatMessages}) {
+
+        const chatMessagesRef = useAutoScroll(chatMessages)
+
+        if (chatMessages.length === 0) {
+            return (
+                <div>
+                    <p className="welcome-text">Welcome to the chatbot project! Send a message using the textbox below.</p>
+                </div>
+            );
+        }
 
         return (
             <div

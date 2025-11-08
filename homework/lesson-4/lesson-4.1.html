@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>React Basics</title>
+    <style>
+        body {
+            font-family: sans-serif;
+        }
+
+        .title {
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+
+        .btn {
+            background-color: rgb(0, 123, 255);
+            color: white;
+            border: none;
+            border-radius: 7px;
+            font-size: 16px;
+            padding: 10px;
+            margin-right: 9px;
+            margin-top: 10px;
+            cursor: pointer;
+        }
+
+        .input {
+            padding: 10px;
+            margin-top: 10px;
+            border-radius: 7px;
+        }
+
+        .btn-show-password {
+            margin-left: 10px;
+        }
+    </style>
+</head>
+<body>
+<div class="js-container"></div>
+
+<script src="https://unpkg.com/supersimpledev/react.js"></script>
+<script src="https://unpkg.com/supersimpledev/react-dom.js"></script>
+
+<script src="https://unpkg.com/supersimpledev/babel.js"></script>
+<script type="text/babel">
+
+    function App() {
+        return (
+            <LoginForm />
+        );
+    }
+
+    function LoginForm() {
+        const [showPassword, setShowPassword] = React.useState(false);
+
+        function handleShowPassword() {
+            setShowPassword(!showPassword);
+        }
+
+        return (
+            <>
+                <p className="title">Hello, welcome to my website</p>
+                <div>
+                    <input
+                        className="input"
+                        type="email"
+                        placeholder="Email"
+                    />
+                </div>
+                <div>
+                    <input
+                        className="input"
+                        type={showPassword ? 'text' : 'password'}
+                        placeholder="Password"
+                    />
+                    <button
+                        className="btn-show-password"
+                        onClick={handleShowPassword}
+                    >Show</button>
+                </div>
+                <button className="btn">Login</button>
+                <button className="btn">Sing up</button>
+            </>
+        );
+    }
+
+    const container = document.querySelector('.js-container');
+    ReactDOM.createRoot(container).render(<App />);
+</script>
+</body>
+</html>

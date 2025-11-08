@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>React Basics</title>
+    <style>
+        body {
+            margin: 0;
+        }
+
+        .container {
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 1rem;
+
+            background-color: rgb(222, 222, 222);
+        }
+
+        .btn {
+            background-color: rgb(25, 135, 84);
+            color: white;
+            font-size: 1.3rem;
+            padding: 10px;
+            border: none;
+            border-radius: 7px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+<div class="js-container"></div>
+
+<script src="https://unpkg.com/supersimpledev/react.js"></script>
+<script src="https://unpkg.com/supersimpledev/react-dom.js"></script>
+
+<script src="https://unpkg.com/supersimpledev/babel.js"></script>
+<script type="text/babel">
+    
+    function Counter({inCount, setInCount}) {
+
+
+        if (inCount >= 0) {
+            return (
+                <button onClick={() => {setInCount(inCount + 1)}}>Clicked {inCount} times</button>
+            );
+        }
+
+        const [count, setCount] = React.useState(0);
+
+        function handleCountChange() {
+            console.log('Clicked');
+            setCount(count + 1);
+        }
+
+        return (
+            <>
+                <button onClick={handleCountChange}>Clicked {count} times</button>
+            </>
+        );
+    }
+
+    function App() {
+
+        const [mainCount, setMainCount] = React.useState(0)
+
+        const refBtnEl = React.useRef(null)
+
+        const [count, setCount] = React.useState(0)
+
+        function handleClick() {
+            setCount(count + 1)
+        }
+
+        function handleReset() {
+            setCount(0)
+        }
+
+        function handleAutoClick() {
+            setInterval(() => {
+                refBtnEl.current.click();
+            }, 1000)
+        }
+
+        return (
+            <div className="container">
+                <button
+                    className="btn"
+                    onClick={handleClick}
+                    ref={refBtnEl}
+                >Clicked {count} times</button>
+                <button
+                    className="btn"
+                    onClick={handleReset}
+                >Reset</button>
+                <button
+                    className="btn"
+                    onClick={handleAutoClick}
+                >Auto Click</button>
+            </div>
+        );
+    }
+
+    const container = document.querySelector('.js-container');
+    ReactDOM.createRoot(container).render(<App />);
+</script>
+</body>
+</html>
