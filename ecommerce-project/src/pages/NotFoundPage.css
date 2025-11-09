@@ -1,0 +1,18 @@
+.not-found-page {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    max-width: 850px;
+    padding-left: 20px;
+    padding-right: 20px;
+    margin: 90px auto 100px;
+}
+
+.not-found-message {
+    font-size: 50px;
+}
+
+.not-found-img {
+}
