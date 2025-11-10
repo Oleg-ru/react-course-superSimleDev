@@ -1,10 +1,10 @@
-import {Header} from "../components/Header.jsx";
+import {Header} from "../../components/Header.jsx";
 import "./OrdersPage.css"
-import BuyAgain from "../assets/images/icons/buy-again.png"
+import BuyAgain from "../../assets/images/icons/buy-again.png"
 import {Fragment, useEffect, useState} from "react";
 import axios from "axios";
 import dayjs from "dayjs";
-import {formatMoney} from "../utils/money.js";
+import {formatMoney} from "../../utils/money.js";
 
 export function OrdersPage({cart}) {
 
