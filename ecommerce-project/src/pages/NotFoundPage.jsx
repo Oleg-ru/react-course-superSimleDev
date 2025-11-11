@@ -1,10 +1,10 @@
 import {Header} from "../components/Header.jsx";
 import "./NotFoundPage.css"
 
-export function NotFoundPage() {
+export function NotFoundPage({cart}) {
     return (
         <>
-            <Header />
+            <Header cart={cart}/>
 
             <div className="not-found-page">
                 <div
