@@ -5,7 +5,8 @@ import MobileLogoWhite from "../assets/images/mobile-logo-white.png"
 import SearchIcon from "../assets/images/icons/search-icon.png"
 import CartIcon from "../assets/images/icons/cart-icon.png"
 
-export function Header({ cart }) {
+//Добавлен костыль от падений []
+export function Header({ cart = [] }) {
     let totalQuantity = 0;
 
     cart.forEach(cartItem => {

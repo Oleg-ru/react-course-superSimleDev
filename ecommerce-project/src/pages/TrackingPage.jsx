@@ -1,11 +1,14 @@
 import "./TrackingPage.css"
 import {Header} from "../components/Header.jsx";
-import {Link} from "react-router";
+import {Link, useParams} from "react-router";
 
-export function TrackingPage() {
+export function TrackingPage({cart}) {
+
+    const {orderId, productId} = useParams();
+
     return (
         <>
-            <Header />
+            <Header cart={cart}/>
 
             <div className="tracking-page">
                 <div className="order-tracking">
