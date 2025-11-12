@@ -13,12 +13,22 @@ export function OrderSummary({deliveryOptions, cart, loadCart}) {
 
                 return (
                     <div key={cartItem.productId} className="cart-item-container">
-                        <DeliveryDate selectedDeliveryOptions={selectedDeliveryOptions} />
+
+                        <DeliveryDate
+                            selectedDeliveryOptions={selectedDeliveryOptions}
+                        />
 
                         <div className="cart-item-details-grid">
-                            <CartItem cartItem={cartItem} loadCart={loadCart}/>
+                            <CartItem
+                                cartItem={cartItem}
+                                loadCart={loadCart}
+                            />
 
-                            <DeliveryOptions deliveryOptions={deliveryOptions} cartItem={cartItem} loadCart={loadCart}/>
+                            <DeliveryOptions
+                                deliveryOptions={deliveryOptions}
+                                cartItem={cartItem}
+                                loadCart={loadCart}
+                            />
                         </div>
                     </div>
                 );
