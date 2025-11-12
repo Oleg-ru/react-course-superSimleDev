@@ -12,6 +12,10 @@ export function Header({ cart }) {
         totalQuantity += cartItem.quantity;
     })
 
+    const updateSearchInput = () => {
+        console.log('search-btn')
+    }
+
     return (
         <div className="header">
             <div className="left-section">
@@ -26,7 +30,7 @@ export function Header({ cart }) {
             <div className="middle-section">
                 <input className="search-bar" type="text" placeholder="Search"/>
 
-                <button className="search-button">
+                <button className="search-button" onClick={updateSearchInput}>
                     <img className="search-icon" src={SearchIcon}/>
                 </button>
             </div>
