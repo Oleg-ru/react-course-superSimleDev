@@ -21,6 +21,10 @@ function App() {
         loadCart()
     }, [])
 
+    //для возможности вызова из консоли reset метода
+    //axios.post('api/reset')
+    window.axios = axios;
+
   return (
     <>
         <Routes>
