@@ -7,13 +7,39 @@ export function CartItemDetails({cartItem, loadCart}) {
     const [isUpdatingQuantity, setIsUpdatingQuantity] = useState(false);
     const [quantity, setQuantity] = useState(cartItem.quantity);
 
+    /*
+    Удаление товара
+     */
     const deleteCartItem = async () => {
         await axios.delete(`api/cart-items/${cartItem.productId}`);
         await loadCart()
     };
 
+    /*
+    Переключатель отображения поля ввода для изменения кл-ва товара
+     */
     const handleSwitchUpdateInput = () => {
         setIsUpdatingQuantity(!isUpdatingQuantity);
+    }
+
+    /*
+    Обновляет кл-во товаров на сервере
+     */
+    const updateQuantityRequest = async () => {
+        await axios.put(`api/cart-items/${cartItem.productId}`, {
+            quantity: Number(quantity)
+        })
+    }
+
+    /*
+    Обновляет кл-во товаров и отображает на странице
+     */
+    const updateQuantity = () => {
+        if (isUpdatingQuantity) {
+            updateQuantityRequest();
+            setIsUpdatingQuantity(false);
+            loadCart()
+        }
     }
 
     /*
@@ -21,17 +47,18 @@ export function CartItemDetails({cartItem, loadCart}) {
      */
     const updateQuantityInput = (event) => {
         setQuantity(event.target.value);
+    }
 
-        const updateQuantity = async () => {
-            await axios.put(`api/cart-items/${cartItem.productId}`, {
-                quantity: Number(event.target.value)
-            })
+    /*
+    Обработчик нажатий принятия или отмены изменений при редактировании кл-ва товаров
+     */
+    const handleQuantityKeyDown = (event) => {
+        if (event.key === 'Enter') {
+            updateQuantity()
         }
-
-        if (isUpdatingQuantity) {
-            updateQuantity();
+        if (event.key === 'Escape') {
+            setQuantity(cartItem.quantity);
             setIsUpdatingQuantity(false);
-            loadCart()
         }
     }
 
@@ -56,6 +83,7 @@ export function CartItemDetails({cartItem, loadCart}) {
                                                 style={{opacity: isUpdatingQuantity ? 1 : 0}}
                                                 value={quantity}
                                                 onChange={updateQuantityInput}
+                                                onKeyDown={handleQuantityKeyDown}
                                             />
                                                 <span className="quantity-label">{cartItem.quantity}</span>
                                             </span>
