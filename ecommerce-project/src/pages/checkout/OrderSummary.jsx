@@ -1,9 +1,8 @@
-import dayjs from "dayjs";
 import {DeliveryOptions} from "./DeliveryOptions.jsx";
 import {CartItem} from "./CartItem.jsx";
 import {DeliveryDate} from "./DeliveryDate.jsx";
 
-export function OrderSummary({deliveryOptions, cart}) {
+export function OrderSummary({deliveryOptions, cart, loadCart}) {
     return (
         <div className="order-summary">
             {deliveryOptions.length > 0 && cart.map(cartItem => {
@@ -19,7 +18,7 @@ export function OrderSummary({deliveryOptions, cart}) {
                         <div className="cart-item-details-grid">
                             <CartItem cartItem={cartItem}/>
 
-                            <DeliveryOptions deliveryOptions={deliveryOptions} cartItem={cartItem}/>
+                            <DeliveryOptions deliveryOptions={deliveryOptions} cartItem={cartItem} loadCart={loadCart}/>
                         </div>
                     </div>
                 );
