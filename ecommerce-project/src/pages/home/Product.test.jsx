@@ -82,5 +82,13 @@ describe('Product component', () => {
         //ожидаем, что будет вызвана функция перерендера
         expect(loadCart).toHaveBeenCalled();
     });
+
+    it('can select a quantity', () => {
+        render(<Product product={product} loadCart={loadCart}/>);
+
+        const quantitySelector = screen.getByTestId('product-quantity-selector');
+
+        expect(quantitySelector).toHaveValue("1");
+    });
 })
 
