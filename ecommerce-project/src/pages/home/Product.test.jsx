@@ -13,6 +13,7 @@ describe('Product component', () => {
     //Пропсы которы есть компонент на вход
     let product;
     let loadCart;
+    let user;
 
     //Для каждого теста запускать эту функцию
     beforeEach(() => {
@@ -28,6 +29,9 @@ describe('Product component', () => {
             keywords: ["socks", "sports", "apparel"]
         };
         loadCart = vi.fn();
+
+        //Имитация пользователя который будет кликать
+        user = userEvent.setup();
     })
 
     it('displays product details correctly', () => {
@@ -66,8 +70,6 @@ describe('Product component', () => {
 
         render(<Product product={product} loadCart={loadCart}/>);
 
-        //Имитация пользователя который будет кликать
-        const user = userEvent.setup();
         const addToCartButton = screen.getByTestId('add-to-cart-button');
         await user.click(addToCartButton);
 
@@ -83,12 +85,31 @@ describe('Product component', () => {
         expect(loadCart).toHaveBeenCalled();
     });
 
-    it('can select a quantity', () => {
+    it('can select a quantity', async () => {
         render(<Product product={product} loadCart={loadCart}/>);
 
         const quantitySelector = screen.getByTestId('product-quantity-selector');
 
         expect(quantitySelector).toHaveValue("1");
+        //Выбираем в select 3
+        await user.selectOptions(quantitySelector, "3");
+
+        //проверили что выбралось 3
+        expect(quantitySelector).toHaveValue("3");
+
+        //кликнули по кнопке добавления в корзину
+        await user.click(screen.getByTestId("add-to-cart-button"))
+
+        //проверили, что вызвался нужный метод с нужными параметрами
+        expect(axios.post).toHaveBeenCalledWith(
+            '/api/cart-items',
+            {
+                productId: 'e43638ce-6aa0-4b85-b27f-e1d07eb678c6',
+                quantity: 3
+            }
+        );
+        //проверили, что вызвалась функция перерисовки компонента
+        expect(loadCart).toHaveBeenCalled();
     });
 })
 
