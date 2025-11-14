@@ -2,7 +2,7 @@ import {it, expect, describe, vi, beforeEach} from 'vitest'
 import {render, screen, within} from "@testing-library/react";
 import {userEvent} from "@testing-library/user-event";
 import axios from "axios";
-import {MemoryRouter} from "react-router";
+import {MemoryRouter, useLocation} from "react-router";
 import {PaymentSummary} from "./PaymentSummary.jsx";
 
 vi.mock('axios');
@@ -43,5 +43,30 @@ describe('PaymentSummary component', () => {
 
         expect(screen.getByTestId("total-cost-cents"))
             .toHaveTextContent("$55.62");
+    });
+
+    it('should click to Place Order btn', async () => {
+
+        function Location() {
+            const location = useLocation()
+            return <div data-testid="url-path">{location.pathname}</div>
+        }
+
+        render(
+            <MemoryRouter>
+                <PaymentSummary paymentSummary={paymentSummary} loadCart={loadCart}/>
+                <Location />
+            </MemoryRouter>
+        );
+
+        const placeOrderBtn = await screen.getByTestId("place-order-button");
+        const user = userEvent.setup();
+        await user.click(placeOrderBtn);
+
+        expect(axios.post)
+            .toHaveBeenCalledWith('/api/orders');
+        expect(loadCart)
+            .toHaveBeenCalled();
+        expect(screen.getByTestId('url-path')).toHaveTextContent('/orders');
     });
 })
