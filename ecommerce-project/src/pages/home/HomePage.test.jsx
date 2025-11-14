@@ -73,7 +73,7 @@ describe('HomePage component', () => {
     });
 
     it('should add to cart product. button work', async () => {
-        return(
+        render(
             <MemoryRouter>
                 <HomePage cart={[]} loadCart={loadCart}/>
             </MemoryRouter>
@@ -81,25 +81,30 @@ describe('HomePage component', () => {
 
         const productContainer = await screen.findAllByTestId('product-container');
 
+        const qunatitySelectorFirst = within(productContainer[0]).getByTestId("product-quantity-selector");
+        await user.selectOptions(qunatitySelectorFirst, '2');
         const addToCartBtn = within(productContainer[0]).getByTestId("add-to-cart-button");
         await user.click(addToCartBtn);
+
+        const qunatitySelectorSecond = within(productContainer[1]).getByTestId("product-quantity-selector");
+        await user.selectOptions(qunatitySelectorSecond, '3');
         const addToCartBtnSecond = within(productContainer[1]).getByTestId("add-to-cart-button");
         await user.click(addToCartBtnSecond);
 
-        expect(axios.post()).toHaveBeenCalledWith(
+        expect(axios.post).toHaveBeenNthCalledWith(
             1,
             '/api/cart-items', {
                 productId: 'e43638ce-6aa0-4b85-b27f-e1d07eb678c6',
-                quantity: 1
+                quantity: 2
             }
         )
 
-        expect(axios.post()).toHaveBeenCalledWith(
+        expect(axios.post).toHaveBeenNthCalledWith(
             2,
             '/api/cart-items',
             {
                 productId: '15b6fc6f-327a-4ec4-896f-486349e85a3d',
-                quantity: 1
+                quantity: 3
             }
         )
 
